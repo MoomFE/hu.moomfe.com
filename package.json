@@ -1,0 +1,23 @@
+{
+  "name": "hu.moomfe.com",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "author": "Wei Zhang",
+  "license": "MIT",
+  "scripts": {
+    "docs:dev": "node_modules\\.bin\\vuepress dev .",
+    "docs:build": "node_modules\\.bin\\vuepress build ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zhang-Wei-666/hu.moomfe.com.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Zhang-Wei-666/hu.moomfe.com/issues"
+  },
+  "homepage": "https://github.com/Zhang-Wei-666/hu.moomfe.com#readme",
+  "devDependencies": {
+    "vuepress": "^1.0.0-alpha.40"
+  }
+}
