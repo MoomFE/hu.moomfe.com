@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.exclude": {
+			".gitignore": true,
+			"CNAME": true,
+			"hu.moomfe.com.code-workspace": true,
+			"LICENSE": true,
+			"node_modules": true,
+			"yarn.lock": true
+		}
+	}
+}
