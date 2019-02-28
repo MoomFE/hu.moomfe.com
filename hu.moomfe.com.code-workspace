@@ -12,6 +12,8 @@
 			"LICENSE": true,
 			"node_modules": true,
 			"yarn.lock": true
-		}
+		},
+		"editor.tabSize": 2,
+		"editor.detectIndentation": false
 	}
 }
