@@ -20,5 +20,5 @@ module.exports = {
 
 
   evergreen: true,
-  dest: 'dist'
+  dest: 'docs'
 }
