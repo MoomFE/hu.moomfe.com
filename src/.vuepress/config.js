@@ -5,7 +5,7 @@ module.exports = {
   locales: {
     '/': {
       title: 'Hu.js',
-      description: '',
+      description: '基于 Web Components 和 Proxy 的 MVVM 框架',
       lang: 'zh-CN'
     }
   },
