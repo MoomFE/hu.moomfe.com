@@ -1,8 +1,14 @@
 
 
 module.exports = {
-  title: 'Hu.js',
 
+  locales: {
+    '/': {
+      title: 'Hu.js',
+      description: '',
+      lang: 'zh-CN'
+    }
+  },
 
   themeConfig: {
     nav: [
@@ -15,8 +21,6 @@ module.exports = {
       }
     ]
   },
-
-
 
   evergreen: true,
   dest: 'docs'
