@@ -4,7 +4,6 @@ module.exports = {
   title: 'Hu.js',
 
 
-
   themeConfig: {
     nav: [
       {
