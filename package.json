@@ -18,6 +18,6 @@
   },
   "homepage": "https://github.com/Zhang-Wei-666/hu.moomfe.com#readme",
   "devDependencies": {
-    "vuepress": "^1.0.0-alpha.42"
+    "vuepress": "^1.0.0-alpha.46"
   }
 }

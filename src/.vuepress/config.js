@@ -11,16 +11,36 @@ module.exports = {
   },
 
   themeConfig: {
+    sidebar: 'auto',
     nav: [
       {
-        text: '学习',
+        text: 'API',
+        link: '/api/'
+      },
+      {
+        text: '教程',
         items: [
-          { text: '教程', link: '' },
-          { text: 'API', link: '' }
+          { text: '创建一个 Hu 实例', link: '' },
+          { text: '创建一个自定义元素', link: '' },
+          { text: '创建纯渲染实例', link: '' }
+        ]
+      },
+      {
+        text: '资源列表',
+        items: [
+          { text: 'GitHub 仓库', link: 'https://github.com/MoomFE/Hu' }
         ]
       }
     ]
   },
+
+  plugins: [
+    ['container', {
+      type: 'demo',
+      before: info => `<div class="demo">${ info }`,
+      after: '</div>'
+    }]
+  ],
 
   dest: 'docs'
 }

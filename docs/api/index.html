@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>API | Hu.js</title>
+    <meta name="description" content="基于 Web Components 和 Proxy 的 MVVM 框架">
+    
+    
+    <link rel="preload" href="/assets/css/0.styles.3f90de92.css" as="style"><link rel="preload" href="/assets/js/app.9a56fa6e.js" as="script"><link rel="preload" href="/assets/js/2.9379ab8c.js" as="script"><link rel="preload" href="/assets/js/6.a71e51a2.js" as="script"><link rel="prefetch" href="/assets/js/3.5230b5f2.js"><link rel="prefetch" href="/assets/js/4.573cc1ad.js"><link rel="prefetch" href="/assets/js/5.9a3b6255.js"><link rel="prefetch" href="/assets/js/7.2b9b167a.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.3f90de92.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">Hu.js</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/api/" class="nav-link router-link-exact-active router-link-active">API</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title">教程</span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/api/.html" class="nav-link">创建一个 Hu 实例</a></li><li class="dropdown-item"><!----> <a href="/api/.html" class="nav-link">创建一个自定义元素</a></li><li class="dropdown-item"><!----> <a href="/api/.html" class="nav-link">创建纯渲染实例</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title">资源列表</span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/MoomFE/Hu" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub 仓库
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/api/" class="nav-link router-link-exact-active router-link-active">API</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title">教程</span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/api/.html" class="nav-link">创建一个 Hu 实例</a></li><li class="dropdown-item"><!----> <a href="/api/.html" class="nav-link">创建一个自定义元素</a></li><li class="dropdown-item"><!----> <a href="/api/.html" class="nav-link">创建纯渲染实例</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title">资源列表</span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/MoomFE/Hu" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub 仓库
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li></ul></div></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>API</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/api/#全局-api" class="sidebar-link">全局 API</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/api/#hu-define" class="sidebar-link">Hu.define</a></li><li class="sidebar-sub-header"><a href="/api/#hu-observable" class="sidebar-link">Hu.observable</a></li><li class="sidebar-sub-header"><a href="/api/#hu-html" class="sidebar-link">Hu.html</a></li><li class="sidebar-sub-header"><a href="/api/#hu-render" class="sidebar-link">Hu.render</a></li><li class="sidebar-sub-header"><a href="/api/#hu-nexttick" class="sidebar-link">Hu.nextTick</a></li><li class="sidebar-sub-header"><a href="/api/#hu-noconflict" class="sidebar-link">Hu.noConflict</a></li><li class="sidebar-sub-header"><a href="/api/#hu-version" class="sidebar-link">Hu.version</a></li></ul></li></ul></section></li></ul> </aside> <main class="page"> <div class="content default"><h2 id="全局-api"><a href="#全局-api" aria-hidden="true" class="header-anchor">#</a> 全局 API</h2> <h3 id="hu-define"><a href="#hu-define" aria-hidden="true" class="header-anchor">#</a> Hu.define</h3> <ul><li>用法:   <code>Hu.define( name, options )</code></li> <li>参数:
+<ul><li><code>{ String } name</code></li> <li><code>{ Object } options</code></li></ul></li> <li>详细:   方法可用于定义一个全局的自定义元素
+</li></ul> <h3 id="hu-observable"><a href="#hu-observable" aria-hidden="true" class="header-anchor">#</a> Hu.observable</h3> <ul><li>用法:   <code>Hu.observable( object )</code></li> <li>参数:
+<ul><li><code>{ Object } object</code></li></ul></li> <li>详细:</li></ul> <p>方法会返回一个可响应的对象代理 ( 观察者对象 ), Hu 内部会用它来处理 <code>data</code> 函数返回的对象</p> <p>返回的可响应的对象代理可以直接用于渲染函数和计算属性内, 并且会在发生改变时触发相应的更新, 而对源对象直接进行修改将是不可响应的</p> <p>也可以作为最小化的跨组件状态存储器</p> <ul><li>示例:</li></ul> <div class="language-html extra-class"><pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>app<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> state <span class="token operator">=</span> Hu<span class="token punctuation">.</span><span class="token function">observable</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  count<span class="token punctuation">:</span> <span class="token number">0</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">new</span> <span class="token class-name">Hu</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  el<span class="token punctuation">:</span> <span class="token string">'#app'</span><span class="token punctuation">,</span>
+  <span class="token function">render</span><span class="token punctuation">(</span> <span class="token parameter">html</span> <span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">return</span> html<span class="token template-string"><span class="token string">`
+      &lt;div @click=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span> <span class="token keyword">this</span><span class="token punctuation">.</span>add <span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&gt;Count is: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span> state<span class="token punctuation">.</span>count <span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/div&gt;
+    `</span></span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  methods<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+      state<span class="token punctuation">.</span>count<span class="token operator">++</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><h3 id="hu-html"><a href="#hu-html" aria-hidden="true" class="header-anchor">#</a> Hu.html</h3> <ul><li>用法:   <code>Hu.html`&lt;div&gt;&lt;/div&gt;`</code></li> <li>详细: 方法用于创建 <code>TemplateResult</code> 模板</li> <li>示例:</li></ul> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> app <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'app'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> result <span class="token operator">=</span> Hu<span class="token punctuation">.</span>html<span class="token template-string"><span class="token string">`
+  &lt;div&gt;Hello world&lt;/div&gt;
+`</span></span><span class="token punctuation">;</span>
+
+<span class="token comment">// 在 Hu.render 中使用</span>
+Hu<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span> result<span class="token punctuation">,</span> app <span class="token punctuation">)</span>
+
+<span class="token comment">// 在 new Hu 创建的实例中使用</span>
+<span class="token keyword">new</span> <span class="token class-name">Hu</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  el<span class="token punctuation">:</span> app<span class="token punctuation">,</span>
+  <span class="token function">render</span><span class="token punctuation">(</span> <span class="token parameter">html</span> <span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token comment">// html === Hu.html</span>
+    <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 在 Hu.define 创建的自定义元素中使用</span>
+Hu<span class="token punctuation">.</span><span class="token function">define</span><span class="token punctuation">(</span> <span class="token string">'custom-element'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  <span class="token function">render</span><span class="token punctuation">(</span> <span class="token parameter">html</span> <span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token comment">// html === Hu.html</span>
+    <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><h3 id="hu-render"><a href="#hu-render" aria-hidden="true" class="header-anchor">#</a> Hu.render</h3> <ul><li>用法:   <code>Hu.render( result, container )</code></li> <li>参数:
+<ul><li><code>{ TemplateResult } result</code></li> <li><code>{ Element } container</code></li></ul></li> <li>详细:</li></ul> <p>方法可以在不借助使用 <code>new Hu</code> 或 <code>Hu.define</code> 的情况下, 渲染一个 HTML 片段</p> <ul><li>示例:</li></ul> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> app <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'app'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> name <span class="token operator">=</span> <span class="token string">'张三'</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 正常使用</span>
+Hu<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span>
+  Hu<span class="token punctuation">.</span>html<span class="token template-string"><span class="token string">`&lt;div&gt;</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span> name <span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/div&gt;`</span></span><span class="token punctuation">,</span>
+  app
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 另一种使用方式</span>
+Hu<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span> div <span class="token punctuation">)</span><span class="token template-string"><span class="token string">`
+  &lt;div&gt;</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span> name <span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/div&gt;
+`</span></span><span class="token punctuation">;</span>
+</code></pre></div><h3 id="hu-nexttick"><a href="#hu-nexttick" aria-hidden="true" class="header-anchor">#</a> Hu.nextTick</h3> <ul><li>用法:   <code>Hu.nextTick( callback, context )</code></li> <li>参数:
+<ul><li><code>{ Function } callback</code></li> <li><code>{ Object } context</code></li></ul></li> <li>详细:</li></ul> <p>在下次 DOM 更新循环结束之后执行延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM</p> <ul><li>示例:</li></ul> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// 修改数据</span>
+hu<span class="token punctuation">.</span>msg <span class="token operator">=</span> <span class="token string">'Hello'</span><span class="token punctuation">;</span>
+<span class="token comment">// DOM 还没有更新</span>
+Hu<span class="token punctuation">.</span><span class="token function">nextTick</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token comment">// DOM 更新了</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 作为一个 Promise 使用</span>
+Hu<span class="token punctuation">.</span><span class="token function">nextTick</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token comment">// DOM 更新了</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><h3 id="hu-noconflict"><a href="#hu-noconflict" aria-hidden="true" class="header-anchor">#</a> Hu.noConflict</h3> <ul><li>用法:   <code>Hu.noConflict()</code></li> <li>详细:   释放 window.Hu 的控制权, 还原到定义 Hu 之前</li></ul> <h3 id="hu-version"><a href="#hu-version" aria-hidden="true" class="header-anchor">#</a> Hu.version</h3> <ul><li>详细:   提供字符串形式的 Hu 安装版本号</li></ul></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.9a56fa6e.js" defer></script><script src="/assets/js/2.9379ab8c.js" defer></script><script src="/assets/js/6.a71e51a2.js" defer></script>
+  </body>
+</html>
