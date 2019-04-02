@@ -2330,7 +2330,8 @@
       /** 计算属性的 watcher */
 
       const watcher = new Watcher(() => {
-        return (isWatch ? computedTarget : computedTargetProxy)[name] = get();
+        if (isWatch) return computedTarget[name] = get();
+        return computedTargetProxy[name] = get(this);
       }, isComputed, isWatchDeep, observeOptions, name); // 添加占位符
 
       computedTarget[name] = void 0; // 存储计算属性参数
@@ -3319,25 +3320,25 @@
 
   /**
    * 初始化当前组件 data 属性
-   * @param {{}} options 
-   * @param {{}} target 
-   * @param {{}} targetProxy 
+   * @param {{}} options
+   * @param {{}} target
+   * @param {{}} targetProxy
    */
 
   function initData$1(options, target, targetProxy) {
-    const dataTarget = create(null);
-    const dataTargetProxy = target.$data = observe(dataTarget);
-    const {
-      data
-    } = options;
+    const data = options.data;
+    let dataTarget;
 
     if (data) {
-      const dataObj = isFunction(data) ? data.call(targetProxy) : data;
-      each(dataObj, (name, value) => {
-        dataTarget[name] = value;
-        injectionToLit(target, name, 0, () => dataTargetProxy[name], value => dataTargetProxy[name] = value);
-      });
+      dataTarget = isFunction(data) ? data.call(targetProxy) : data;
+    } else {
+      dataTarget = create(null);
     }
+
+    const dataTargetProxy = target.$data = observe(dataTarget);
+    data && each(dataTarget, (name, value) => {
+      injectionToLit(target, name, 0, () => dataTargetProxy[name], value => dataTargetProxy[name] = value);
+    });
   }
 
   var isEmptyObject = (
