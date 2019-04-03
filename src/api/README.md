@@ -441,14 +441,43 @@ hu.a = 2; // `value: 2, oldValue: 1`
 ::: danger
 这一部分可能是和 Vue 区别最大的地方了, Hu 使用了深度定制的 [lit-html](https://github.com/Polymer/lit-html) 来创建 DOM
 
-相比模板语言, 它提供语义化并且可以移动的标签
+相比模板语言, 它提供语义化并且可以移动的标签, 且支持多个根元素
 
 相比 JSX 语法, 它无需通过构建工具就可以使用
 :::
 
 - 示例:
 ``` js
+// 正常使用
+render( html ){
+  return html`<div>Hello world</div>`;
+}
 
+// 条件判断
+render( html ){
+  if( something ){
+    return html`<div>Truthy</div>`;
+  }else{
+    return html`<div>Falsey</div>`;
+  }
+}
+
+const style = html`
+  <style>
+    :host > div{ color: red }
+  </style>
+`;
+
+// 嵌套使用, 且支持多个根元素
+render( html ){
+  return html`
+    ${ style }
+    <div>Hi ~</div>
+    <div>Hello world ~</div>
+  `;
+}
+
+// 更多示例, 还在编辑中
 ```
 
 
