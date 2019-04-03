@@ -65,6 +65,8 @@ new Hu({
 - 示例:
 ``` js
 const app = document.getElementById('app');
+
+// 一处定义, 处处使用
 const result = Hu.html`
   <div>Hello world</div>
 `;
@@ -169,7 +171,7 @@ Hu.nextTick().then(function(){
 
 
 
-## 选项 - 数据
+## 选项 / 数据
 
 ### data
 - 类型: &nbsp; `Object | Function`
@@ -218,7 +220,7 @@ Hu.define( 'custom-element', {
 
 
 ### props
-- 类型: &nbsp; `Array<string> | Object`
+- 类型: &nbsp; `Array<String> | Object`
 - 限制: &nbsp; 只有自定义元素创建的实例才能发挥其作用
 - 详细:
 
@@ -257,7 +259,7 @@ Hu.define( 'custom-element', {
 
 
 ### computed
-- 类型: `{ [key: String]: Function | { get: Function, set: Function } }`
+- 类型: &nbsp; `{ [key: String]: Function | { get: Function, set: Function } }`
 - 详细:
 
 计算属性将被混入到 Hu 实例中. 所有 getter 和 setter 的 this 上下文自动地绑定为 Hu 实例
@@ -308,7 +310,7 @@ hu.aDouble; // -> 4
 
 
 ### methods
-- 类型: `{ [key: String]: Function }`
+- 类型: &nbsp; `{ [key: String]: Function }`
 - 详细:
 
 methods 将被混入到 Hu 实例中. 可以直接通过 Hu 实例访问这些方法, 或者在指令表达式中使用. 方法中的 this 自动绑定为 Hu 实例
@@ -337,7 +339,7 @@ hu.a; // -> 3
 
 
 ### watch
-- 类型: `{ [key: string]: string | Function | Object | Array }`
+- 类型: &nbsp; `{ [key: string]: string | Function | Object | Array }`
 - 详细:
 
 一个对象, 键是需要观察的表达式, 值是对应回调函数. 值也可以是方法名, 或者包含选项的对象. Hu 实例将会在实例化时调用 $watch(), 遍历 watch 对象的每一个属性
@@ -367,9 +369,91 @@ const hu = new Hu({
       console.log(`value: ${ value }, oldValue: ${ oldValue }`);
     },
     // 方法名
-    // b: 'watchB'
-    // 未完待续...
+    b: 'watchB'
+    // 深度监听
+    c: {
+      deep: true,
+      handler( value, oldValue ){
+        // ...
+      }
+    },
+    // 该回调将会在侦听开始之后被立即调用
+    d: {
+      immediate: true,
+      handler( value, oldValue ){
+        // ...
+      }
+    },
+    // 监听一系列方法
+    e: [
+      'watchB',
+      function( value, oldValue ){
+        // ...
+      },
+      {
+        handler( value, oldValue ){
+          // ...
+        }
+      }
+    ],
+    // 监听 hu.e.f 的值: { g: 5 }
+    'e.f': function( value, oldValue ){
+      // ...
+    }
   }
 });
 
+hu.a = 2; // `value: 2, oldValue: 1`
 ```
+
+
+
+
+
+
+## 选项 / DOM
+
+### el
+- 类型: &nbsp; `String | Element`
+- 限制: &nbsp; 只在由 `new` 创建的实例中遵守
+- 详细:
+
+提供一个在页面上已存在的 DOM 元素作为 Hu 实例的挂载目标. 可以是 CSS 选择器, 也可以是一个 HTMLElement 实例
+
+在实例挂载之后, 元素可以用 hu.$el 访问
+
+如果在实例化时存在这个选项, 实例将立即进入编译过程, 否则, 需要显式调用 hu.$mount() 手动开启编译
+
+::: danger
+和 Vue 不同的是, 挂载元素不会被 Hu 生成的 DOM 替换, 而是替换掉挂载元素的内容. 但是, 依旧不推荐挂载 root 实例到 `<html>` 或者 `<body>` 上
+:::
+
+
+
+
+
+### render
+- 类型: &nbsp; `( html: () => TemplateResult ): TemplateResult | Array<TemplateResult>`
+- 详细:
+
+渲染函数允许你发挥 JavaScript 最大的编程能力, 该渲染函数接收一个 `html` 方法, 使用类似 JSX 的语法来创建 DOM
+
+::: danger
+这一部分可能是和 Vue 区别最大的地方了, Hu 使用了深度定制的 [lit-html](https://github.com/Polymer/lit-html) 来创建 DOM
+
+相比模板语言, 它提供语义化并且可以移动的标签
+
+相比 JSX 语法, 它无需通过构建工具就可以使用
+:::
+
+- 示例:
+``` js
+
+```
+
+
+
+
+
+## 选项 / 生命周期钩子
+// 未完待续
