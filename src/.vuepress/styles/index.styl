@@ -1,10 +1,13 @@
-.demo{
-  border: 1px solid #eee;
-  border-radius: 2px;
-
-  padding: 25px 35px;
-  margin: 1em 0;
-
-  user-select: none;
-  overflow-x: auto;
-}
+.content:not(.custom)
+  // 显示锚标记
+  a.header-anchor
+    opacity: 1;
+  // 增加大标题与其他内容的间距
+  > h2:not(:first-child)
+    padding-top: 12rem;
+  // 增加副标题与其他内容的间距
+  > :not( h2 ) + h3:not(:first-child)
+    padding-top: 8rem;
+  // 缩小提示容器的字体大小
+  .custom-block.tip, .custom-block.warning, .custom-block.danger
+    font-size: 95%
