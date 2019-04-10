@@ -1,6 +1,6 @@
 .content:not(.custom)
   // 显示锚标记
-  a.header-anchor
+  :not( h2 ) > a.header-anchor
     opacity: 1;
   // 增加大标题与其他内容的间距
   > h2:not(:first-child)
@@ -11,3 +11,6 @@
   // 缩小提示容器的字体大小
   .custom-block.tip, .custom-block.warning, .custom-block.danger
     font-size: 95%
+  // 提亮字体颜色
+  code
+    color: #e96900

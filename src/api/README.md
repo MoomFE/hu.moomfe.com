@@ -227,9 +227,11 @@ Hu.define( 'custom-element', {
 props 可以是数组或对象, 用于接收来自定义元素上属性 ( Attribute ) 的数据, props 可以是简单的数组, 或者使用对象作为替代, 对象允许配置高级选项, 如类型转换、来源属性或默认值
 
 你可以基于对象的语法使用以下选项:
+::: tip
 - `attr` : 定义当前 prop 从自定义元素哪个属性名称上进行取值
 - `type` : 定义当前 prop 如何从自定义元素的属性转换为实例上的属性, 可以是 `String`、`Number`、`Boolean` 等或者自定义的方法
 - `default` : 定义当前 prop 的默认值, 如果在创建实例时 prop 没有被传入, 则换做用这个值, 对象或数组的默认值必须从一个工厂函数返回
+:::
 
 - 示例:
 ``` js
@@ -614,3 +616,127 @@ const hu = new Hu({
 // => 1
 // => 2
 ```
+
+
+
+
+
+
+## 实例属性
+
+### hu.$el
+- 类型: &nbsp; `Element | ShadowRoot`
+- 只读
+- 详细:
+
+Hu 实例使用的根 DOM 元素<br>
+在由自定义元素创建的实例中, 则是当前实例的阴影根 ( ShadowRoot ) 节点
+
+
+
+
+
+
+### hu.$customElement
+- 类型: &nbsp; `Element`
+- 限制: &nbsp; 只在由自定义元素创建的实例中可用
+- 只读
+- 详细
+
+Hu 实例的自定义元素节点
+
+
+
+
+
+
+### hu.$props
+- 类型: &nbsp; `Object`
+- 详细:
+
+当前组件接收到的 props 对象, Hu 实例代理了对其 props 对象属性的访问
+
+
+
+
+
+
+### hu.$data
+- 类型: &nbsp; `Object`
+- 详细:
+
+Hu 实例观察的数据对象, Hu 实例代理了对其 data 对象属性的访问
+
+
+
+
+
+
+### hu.$methods
+- 类型: &nbsp; `Object`
+- 详细:
+
+Hu 实例的方法对象, Hu 实例代理了对其 methods 对象属性的访问
+
+
+
+
+
+
+### hu.$computed
+- 类型: &nbsp; `Object`
+- 详细:
+
+Hu 实例的计算属性对象, Hu 实例代理了对其 computed 对象属性的访问
+
+
+
+
+
+
+### hu.$options
+- 类型: &nbsp; `Object`
+- 只读
+- 详细:
+
+当前 Hu 实例初始化选项, 需要在初始化选项中包含自定义属性时会有用处
+
+- 示例:
+``` js
+new Hu({
+  customOption: 'foo',
+  created(){
+    console.log( this.$options.customOption ) // => 'foo'
+  }
+});
+```
+
+
+
+
+
+
+### hu.$info
+- 类型: &nbsp; `Object`
+- 只读
+- 详细:
+
+当前 Hu 实例信息选项, 包含了当前实例的各种信息及状态:
+::: tip
+- `name` : 当前自定义元素的名称 | 当前实例的名称
+- `isMounted` : 标识当前实例的首次挂载是否已完成
+- `isCustomElement` : 标识当前实例是否是自定义元素
+- `isConnected` : 标识当前自定义元素是否在文档流中 ( 如果是使用 new 创建的实例, 则作用和 isMounted 一致 )
+:::
+
+
+
+
+
+
+### hu.$refs
+- 类型: &nbsp; `Object`
+- 只读
+- 详细:
+
+一个持有注册过 ref 引用特性的所有 DOM 元素的对象
