@@ -11,7 +11,36 @@ module.exports = {
   },
 
   themeConfig: {
-    sidebar: 'auto',
+    sidebar: {
+      '/guide/': [
+        {
+          title: '基础',
+          children: [
+            'installation',
+            '',
+            'instance',
+            'syntax',
+            'computed',
+            'class-and-style',
+            'model',
+            'list',
+            'events'
+          ]
+        },
+        {
+          title: '可复用性 & 组合',
+          children: [
+            'mixins'
+          ]
+        },
+        {
+          title: '内在',
+          children: [
+            'reactivity'
+          ]
+        }
+      ]
+    },
     nav: [
       {
         text: 'API',
@@ -20,9 +49,9 @@ module.exports = {
       {
         text: '教程',
         items: [
-          { text: '创建一个 Hu 实例', link: '' },
-          { text: '创建一个自定义元素', link: '' },
-          { text: '创建纯渲染实例', link: '' }
+          { text: '教程', link: '/guide/' },
+          { text: '教程 - 自定义元素', link: '/guide-custom-element/' },
+          { text: '教程 - 纯渲染实例', link: '/guide-render/' }
         ]
       },
       {
