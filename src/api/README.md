@@ -981,3 +981,261 @@ new Hu({
 
 完全销毁一个实例, 移除所有计算属性和 watch 监听, 解绑它的全部指令及事件监听器<br>
 触发 `beforeDestroy` 和 `destroyed` 的钩子
+
+
+
+
+
+
+## 基础指令
+
+### .prop
+- 参数: &nbsp; `prop`
+- 预期: &nbsp; `any`
+- 详细:
+
+用于动态地绑定 DOM 属性 ( property ), 属性名由参数指定
+
+- 示例:
+``` js
+html`<div .title=${ 'value' }></div>`;
+
+div.title; // => 'value'
+```
+
+
+
+
+
+
+### ?attr
+- 参数: &nbsp; `attr`
+- 预期: &nbsp; `Boolean`
+- 详细:
+
+若属性值为 [Truthy](https://developer.mozilla.org/zh-CN/docs/Glossary/Truthy) 则保留 DOM 属性, 否则移除 DOM 属性, 属性名由参数指定
+
+- 示例:
+``` js
+// 保留 DOM 属性
+html`<input ?readonly=${ true } />`;
+input.hasAttribute('readonly'); // true;
+
+// 移除 DOM 属性
+html`<input ?readonly=${ false } />`;
+input.hasAttribute('readonly'); // false;
+```
+
+
+
+
+
+
+### @event
+- 参数: &nbsp; `event`
+- 预期: &nbsp; `Function`
+- 修饰符:
+  - `.stop` - 调用 `event.stopPropagation()`
+  - `.prevent` - 调用 `event.preventDefault()`
+  - `.capture` - 添加事件侦听器时使用 capture 模式
+  - `.passive` - 添加事件侦听器时使用 passive 模式
+  - `.once` - 只触发一次回调
+  - `.self` - 只当事件是从侦听器绑定的元素本身触发时才触发回调
+  - `.left` - 只当点击鼠标左键时触发
+  - `.middle` - 只当点击鼠标中键时触发
+  - `.right` - 只当点击鼠标右键时触发
+  - `.ctrl` - `系统修饰键`, 只当按下 `ctrl` 时触发
+  - `.alt` - `系统修饰键`, 只当按下 `alt` 时触发
+  - `.shift` - `系统修饰键`, 只当按下 `shift` 时触发
+  - `.meta` - `系统修饰键`, 只当按下 `meta` 时触发
+  - `.exact` - 控制由精确的 `系统修饰键` 组合时触发
+- 详细:
+
+绑定事件监听器, 事件类型由参数指定
+
+- 参数:
+``` js
+function doSomething( event ){
+  // ...
+}
+
+// 方法处理器
+html`<button @click=${ doSomething }></button>`;
+
+// 停止冒泡
+html`<button @click.stop=${ doSomething }></button>`;
+
+// 阻止默认行为
+html`<button @click.prevent=${ doSomething }></button>`;
+
+// 串联修饰符
+html`<button @click.stop.prevent=${ doSomething }></button>`;
+
+// 点击回调只会触发一次
+html`<button @click.once=${ doSomething }></button>`;
+
+// 系统修饰键
+// 点击时, ctrl 是按下的
+html`<button @click.ctrl=${ doSomething }></button>`;
+
+// 精确控制系统修饰键
+// 点击时, 四个系统修饰键内只有 ctrl 是按下的
+html`<button @click.ctrl.exact=${ doSomething }></button>`;
+```
+
+
+
+
+
+
+### :name
+- 参数: &nbsp; `name`
+- 预期: &nbsp; 按不同指令而不同
+- 详细:
+
+拥有高级功能的指令, 指令名称由参数指定. 详见 [功能指令](#功能指令)
+
+
+
+
+
+
+## 功能指令
+
+### :class
+- 预期: &nbsp; `String | Array | Object`
+- 详细:
+
+操作元素的 class 列表是数据绑定的一个常见需求, `:class` 做了专门的增强, 表达式结果的类型除了字符串之外, 还可以是对象或数组
+
+#### 对象语法
+我们可以传给 `:class` 一个对象, 以动态地切换 class:
+``` js
+html`<div :class=${{ active: isActive }}></div>`
+```
+上面的语法表示 `active` 这个 class 存在与否将取决于数据属性 `isActive` 的 [truthiness](https://developer.mozilla.org/zh-CN/docs/Glossary/Truthy)
+
+你可以在对象中传入更多属性来动态切换多个 class. 此外, `:class` 指令也可以与普通的 class 属性共存
+``` js
+var isActive = true;
+var hasError = false;
+
+html`
+  <div
+    class="static"
+    :class=${{ active: isActive, 'text-danger': hasError }}
+  ></div>
+`
+```
+
+结果将渲染为
+```js
+<div class="static active"></div>
+```
+
+绑定的数据对象不必内联定义在模板里
+```js
+const classes = {
+  active: true,
+  'text-danger': false
+};
+
+// 渲染的结果和上面一样
+html`<div class="static" :class=${ classes }></div>`;
+```
+
+我们也可以在这里绑定一个返回对象的计算属性. 这是一个常用且强大的模式
+``` js
+new Hu({
+  data: {
+    isActive: true,
+    error: null
+  },
+  computed: {
+    classes(){
+      return {
+        active: this.isActive && !this.error,
+        'text-danger': this.error && this.error.type === 'fatal'
+      };
+    }
+  },
+  render( html ){
+    return html`
+      <div class="static" :class=${ this.classes }></div>
+    `;
+  }
+});
+```
+
+#### 数组语法
+我们可以把一个数组传给 `:class`, 以应用一个 class 列表
+``` js
+var activeClass = 'active';
+var errorClass = 'text-danger';
+
+html`<div :class=${[ activeClass, errorClass ]}></div>`;
+```
+
+如果你也想根据条件切换列表中的 class, 可以用三元表达式
+``` js
+html`<div :class=${[ isActive ? activeClass : '', errorClass ]}></div>`;
+```
+
+不过, 当有多个条件 class 时这样写有些繁琐. 所以在数组语法中也可以使用对象语法
+``` js
+html`<div :class=${[ { activeClass: isActive }, errorClass ]}></div>`;
+```
+
+
+
+
+
+
+### :style
+- 预期: &nbsp; `String | Array | Object`
+- 详细:
+
+操作元素的 style 内联样式是数据绑定的一个常见需求, `:style` 做了专门的增强, 表达式结果的类型除了字符串之外, 还可以是对象或数组.
+
+#### 数组语法
+`:style` 的对象语法十分直观 -- 看着非常像 CSS, 但其实是一个 JavaScript 对象. CSS 属性名可以用驼峰式 ( camelCase ) 或短横线分隔 ( kebab-case, 记得用单引号括起来 ) 来命名
+``` js
+var activeColor = 'red';
+var fontSize = 30;
+
+html`<div :style=${{ color: activeColor, fontSize: fontSize + 'px' }}></div>`
+```
+
+直接绑定到一个样式对象通常更好，这会让模板更清晰
+``` js
+var styleObject = {
+  color: 'red',
+  fontSize: '13px'
+};
+
+html`<div :style=${ styleObject }></div>`
+```
+
+同样的, 对象语法常常结合返回对象的计算属性使用
+
+#### 数组语法
+`:style` 的数组语法可以将多个样式对象应用到同一个元素上
+
+``` js
+html`<div :style=${[ baseStyles, overridingStyles ]}></div>`
+```
+
+
+
+
+
+
+### :model
+- 预期: &nbsp; 随表单控件类型不同而不同
+- 限制:
+  - `<input>`
+  - `<select>`
+  - `<textarea>`
+- 详细:
+
+在表单控件上创建双向绑定
