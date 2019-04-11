@@ -43,16 +43,16 @@ module.exports = {
     },
     nav: [
       {
-        text: 'API',
-        link: '/api/'
-      },
-      {
         text: '教程',
         items: [
           { text: '教程', link: '/guide/' },
           { text: '教程 - 自定义元素', link: '/guide-custom-element/' },
           { text: '教程 - 纯渲染实例', link: '/guide-render/' }
         ]
+      },
+      {
+        text: 'API',
+        link: '/api/'
       },
       {
         text: '资源列表',

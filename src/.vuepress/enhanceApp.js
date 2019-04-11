@@ -1,14 +1,5 @@
-if( typeof window !== 'undefined' ){
-  [
-    '/hu/hu.polyfill.async.config.js',
-    '/hu/hu.polyfill.async.js'
-  ].forEach( src => {
-    var script = document.createElement('script');
-        script.src = src;
-
-    document.head.appendChild( script );
-  });
-}
+import './public/hu/hu.polyfill.async.config';
+import './public/hu/hu.polyfill.async.esm';
 
 
 export default ({
