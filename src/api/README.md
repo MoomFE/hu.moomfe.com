@@ -726,7 +726,7 @@ new Hu({
 - `name` : 当前自定义元素的名称 | 当前实例的名称
 - `isMounted` : 标识当前实例的首次挂载是否已完成
 - `isCustomElement` : 标识当前实例是否是自定义元素
-- `isConnected` : 标识当前自定义元素是否在文档流中 ( 如果是使用 new 创建的实例, 则作用和 isMounted 一致 )
+- `isConnected` : 标识当前自定义元素是否在文档流中 ( 如果是使用 `new` 创建的实例, 则作用和 isMounted 一致 )
 :::
 
 
@@ -740,3 +740,244 @@ new Hu({
 - 详细:
 
 一个持有注册过 ref 引用特性的所有 DOM 元素的对象
+
+
+
+
+
+
+## 实例方法 / 数据
+
+### hu.$watch
+- 用法: &nbsp; `hu.$watch( expOrFn, callback, [ options ] )`
+- 参数:
+  - `{ String | Function } expOrFn`
+  - `{ Function | Object } callback`
+  - `{ Object } [ options ]`
+    - `{ Boolean } deep`
+    - `{ Boolean } immediate`
+- 返回值: &nbsp; `{ Function } unWatch`
+- 详细:
+
+观察 Hu 实例变化的一个表达式或计算属性函数. 回调函数得到的参数为新值和旧值. 表达式只接受监督的键路径. 对于更复杂的表达式, 可以用一个函数取代
+
+::: danger
+注意: 在变异 ( 不是替换 ) 对象或数组时, 旧值将与新值相同, 因为它们的引用指向同一个对象 / 数组. Hu 不会保留变异之前值的副本
+:::
+
+- 示例:
+``` js
+// 键路径
+hu.$watch( 'a.b.c', function( newValue, oldValue ){
+  // 做点什么
+});
+
+// 函数
+hu.$watch(
+  function(){
+    // 表达式 `this.a + this.b` 每次得出一个不同的结果时
+    // 处理函数都会被调用
+    // 这就像监听一个未被定义的计算属性
+    return this.a + this.b;
+  },
+  function( newValue, oldValue ){
+    // 做点什么
+  }
+);
+```
+
+`hu.$watch` 返回一个取消观察函数, 用来停止触发回调
+``` js
+var unWatch = hu.$watch( 'a', callback );
+// 取消观察
+unWatch();
+```
+
+- 选项: deep
+
+为了发现对象内部值的变化, 可以在选项参数中指定 `deep: true`
+
+::: danger
+和 Vue 不同的是, 如果你要监听一个数组内部的变动, 也需要添加 `deep: true`
+:::
+
+``` js
+hu.$watch( 'someObject', callback, {
+  deep: true
+});
+
+hu.someObject.nestedValue = 123;
+// 回调会被触发
+```
+
+- 选项: immediate
+
+在选项参数中指定 `immediate: true` 将立即以表达式的当前值触发回调
+``` js
+hu.$watch( 'a', callback, {
+  immediate: true
+});
+```
+
+
+
+
+
+
+## 实例方法 / 事件
+
+### hu.$on
+- 用法: &nbsp; `hu.$on( event, callback )`
+- 参数:
+  - `{ string | Array<string> } event`
+  - `{ Function } callback`
+- 详细:
+
+监听当前实例上的自定义事件. 事件可以由 hu.$emit 触发. 回调函数会接收所有传入事件触发函数的额外参数
+
+- 示例:
+``` js
+hu.$on('test', function (msg) {
+  console.log( msg )
+});
+
+hu.$emit( 'test', 'hi' );
+// => "hi"
+```
+
+
+
+
+
+
+### hu.$once
+- 用法: &nbsp; `hu.$once( event, callback )`
+- 参数:
+  - `{ string } event`
+  - `{ Function } callback`
+- 详细:
+
+监听一个当前实例上的自定义事件, 但是只触发一次, 在第一次触发之后移除监听器
+
+
+
+
+
+
+### hu.$off
+- 用法: &nbsp; `hu.$off([ event, callback ])`
+- 参数:
+  - `{ string | Array<string> } event`
+  - `{ Function } callback`
+- 详细:
+
+  移除自定义事件监听器
+  - 如果没有提供参数, 则移除所有的事件监听器
+  - 如果只提供了事件, 则移除该事件所有的监听器
+  - 如果同时提供了事件与回调, 则只移除这个回调的监听器
+
+
+
+
+
+
+### hu.$emit
+- 用法: &nbsp; `hu.$emit( event, [ ...args ] )`
+- 参数:
+  - `{ string } event`
+  - `[ ...args ]`
+- 详细:
+
+触发当前实例上的事件, 附加参数都会传给监听器回调
+
+
+
+
+
+
+## 实例方法 / 生命周期
+
+### hu.$mount
+- 用法: &nbsp; `hu.$mount( elementOrSelector )`
+- 参数:
+  - `{ Element | string } elementOrSelector`
+- 返回值: &nbsp; `hu` - 实例自身
+- 限制: &nbsp; 只在由 `new` 创建的实例中可用
+- 详细:
+
+如果 Hu 实例在实例化时没有收到 el 选项, 则它处于 "未挂载" 状态, 没有关联的 DOM 元素. 可以使用 hu.$mount() 手动地挂载一个未挂载的实例
+
+这个方法返回实例自身, 因而可以链式调用其它实例方法
+
+- 示例:
+``` js
+// 创建实例, 但是未挂载实例到文档中
+const hu = new Hu({
+  render( html ){
+    return html`<div>Hello!</div>`;
+  }
+});
+
+// 挂载到 #app
+hu.$mount('#app');
+```
+
+
+
+
+
+
+### hu.$forceUpdate
+- 用法: &nbsp; `hu.$forceUpdate()`
+- 详细:
+
+迫使 Hu 实例立即重新渲染
+
+
+
+
+
+
+### hu.$nextTick
+- 用法: &nbsp; `hu.$nextTick([ callback ])`
+- 参数:
+  - `{ Function } [ callback ]`
+- 详细:
+
+将回调延迟到下次 DOM 更新循环之后执行. 在修改数据之后立即使用它, 然后等待 DOM 更新. 它跟全局方法 `Hu.nextTick` 一样, 不同的是回调的 this 自动绑定到调用它的实例上
+
+如果没有提供回调, 则返回一个 Promise
+
+- 示例:
+``` js
+new Hu({
+  // ...
+  methods: {
+    doSomethingElse(){
+      // ...
+    },
+    example(){
+      // 修改数据
+      this.message = 'changed';
+      // DOM 还没有更新
+      this.$nextTick(function{
+        // DOM 现在更新了
+        // `this` 绑定到当前实例
+        this.doSomethingElse();
+      });
+    }
+  }
+});
+```
+
+
+
+
+
+
+### hu.destroy
+- 用法: &nbsp; `hu.$destroy()`
+- 详细:
+
+完全销毁一个实例, 移除所有计算属性和 watch 监听, 解绑它的全部指令及事件监听器<br>
+触发 `beforeDestroy` 和 `destroyed` 的钩子
