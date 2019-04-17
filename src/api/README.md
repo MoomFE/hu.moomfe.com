@@ -1,5 +1,6 @@
 ---
 title: API
+sidebar: auto
 ---
 
 ## 全局 API
