@@ -1397,6 +1397,7 @@ html`<div :style=${[ baseStyles, overridingStyles ]}></div>`
 
 在表单控件上创建双向绑定, 可以将控件的值与观察者对象进行绑定
 
+- 示例:
 ``` js
 const div = document.createElement('div');
 const hu = new Hu({
@@ -1421,3 +1422,162 @@ hu.$nextTick(() => {
   });
 });
 ```
+
+
+
+
+
+
+### :show
+- 预期: &nbsp; `any`
+- 详细:
+
+根据表达式之真假值, 切换元素的 display CSS 属性
+
+
+
+
+
+
+### :text
+- 预期: &nbsp; `any`
+- 详细:
+
+更新元素的 `textContent`
+
+
+
+
+
+
+### :html
+- 预期: &nbsp; `any`
+- 详细:
+
+更新元素的 `innerHTML`, 如果需要更新部分的 `innerHTML`, 可以使用 [unsafe](#html-unsafe) 指令方法
+
+::: danger
+- 内容将按照普通 HTML 直接进行插入, 不会对内容进行其他编译
+- 在网站上动态渲染任意 HTML 是非常危险的, 因为容易导致 XSS 攻击<br>
+- 只在可信内容上使用 unsafe, 永不用在用户提交的内容上
+:::
+
+
+
+
+
+
+## 指令方法
+
+### html.repeat
+- 用法: &nbsp; `html.repeat( item, key, template )`
+- 参数:
+  - `{ T[] } item`
+  - `{ string | ((T) => string) } key`
+  - `{ ( item: T, index: number, items: T[] ) => TemplateResult } template`
+- 详细:
+
+渲染数组时使用, 若数组发生变动, 将基于 key 的变化重新排列元素顺序而不是替换元素
+
+- 示例:
+``` js
+const arr = [
+  { id: '1', value: 'q' },
+  { id: '2', value: 'w' },
+  { id: '3', value: 'e' }
+]
+
+Hu.render( div )`
+  <div>${
+    Hu.html.repeat( arr, 'id', ( data, index, arr ) => {
+      return Hu.html`<span>${ data.id }: ${ data.value }</span>`;
+    })
+  }</div>
+`;
+```
+
+
+
+
+
+
+### html.unsafe
+- 用法: &nbsp; `html.unsafe( value )`
+- 参数:
+  - `{ string } value`
+- 详细:
+
+将内容按普通 HTML 不转义直接插入到当前位置, 如果需要更新完整的的 `innerHTML`, 也可以使用 [html](#html) 功能指令
+
+::: danger
+- 内容将按照普通 HTML 直接进行插入, 不会对内容进行其他编译
+- 在网站上动态渲染任意 HTML 是非常危险的, 因为容易导致 XSS 攻击<br>
+- 只在可信内容上使用 unsafe, 永不用在用户提交的内容上
+:::
+
+- 示例:
+``` js
+const unsafeHTML = `<span>unsafeHTML</span>`;
+
+Hu.render( div )`
+  <div>${
+    Hu.html.unsafe( unsafeHTML )
+  }</div>
+`;
+```
+
+
+
+
+
+
+### html.bind
+- 用法: &nbsp; `html.bind( obj, name )`
+- 参数:
+  - `{ object } obj`
+  - `{ string | number | symbol } name`
+- 详细:
+
+将元素属性或内容与观察者对象的目标对象绑定, 若观察者对象的目标对象更新, 元素属性也会更新
+
+::: tip
+- 和常规绑定相比, 若是使用此方法绑定的元素属性或内容, 变量更新时可以不触发整体重新渲染
+- 纯渲染实例可以使用此方法达到和常规绑定一样的体验
+- 和常规绑定一样, 观察者对象的目标对象更新后, 属性值会在下一 tick 进行更新, 可以使用 nextTick 方法获取更新后的值
+:::
+
+- 示例:
+``` js
+new Hu({
+  data: {
+    classes: 'bar'
+  },
+  render( html ){
+    // 可复用
+    const bindClasses = html.bind( this, 'classes' );
+
+    // 1. 使用 bind 绑定的写法
+    // 若 classes 发生改变, render 方法不会被重新运行, 而是单独更新绑定的位置
+    return html`
+      <div class=${ bindClasses }>${ bindClasses }</div>
+    `;
+
+    // 2. 使用常规绑定的写法
+    // 若 classes 发生改变, render 方法会被重新运行以达到更新的目的
+    return html`
+      <div class=${ this.classes }>${ this.classes }</div>
+    `;
+  }
+});
+```
+
+
+
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
