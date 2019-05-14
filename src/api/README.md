@@ -172,6 +172,111 @@ Hu.nextTick().then(function(){
 
 
 
+### Hu.util
+- 详细: &nbsp; 共享出来的部分内部使用的方法
+``` ts
+/**
+ * 绑定事件
+ * @param elem 绑定事件的元素对象
+ * @param type 事件名称
+ * @param listener 事件回调
+ * @param options 事件修饰符
+ */
+addEvent( elem: Element, type: string, listener: function, options: boolean | {} ): void;
+
+/**
+ * 解绑事件
+ * @param elem 解绑事件的元素对象
+ * @param type 事件名称
+ * @param listener 事件回调
+ * @param options 事件修饰符
+ */
+removeEvent( elem: Element, type: string, listener: function, options: boolean | {} ): void;
+
+/**
+ * 触发事件
+ * @param elem 触发事件的元素对象
+ * @param type 事件名称
+ */
+triggerEvent( elem: Element, type: string ): void;
+
+/**
+ * 对象遍历方法
+ *  - 和 jQuery 的 each 方法不同, 遍历过程无法通过返回 false 进行中断
+ *  - 就是个普通的对象遍历方法
+ * @param obj 
+ * @param callback 
+ */
+each( obj: {}, callback: function ): void;
+
+/**
+ * 判断传入对象是否是纯粹的对象
+ * @param obj 需要判断的对象
+ */
+isPlainObject( obj: any ): boolean;
+
+/**
+ * 判断传入对象是否是一个空对象
+ * @param obj 需要判断的对象
+ */
+isEmptyObject( obj: any ): boolean;
+
+/**
+ * 判断传入对象是否是原始对象
+ * @param obj 需要判断的对象
+ */
+isPrimitive( obj: any ): boolean;
+
+/**
+ * 判断传入的两个值是否相等
+ *  - 用于避免 NaN !== NaN 的问题
+ * @param value 需要判断的对象
+ * @param value2 需要判断的对象
+ */
+isEqual( value, value2 ): boolean;
+
+/**
+ * 判断传入对象是否是 String 类型
+ * @param obj 需要判断的对象
+ */
+isString( obj: any ): boolean;
+
+/**
+ * 判断传入对象是否是 Object 类型且不为 null
+ * @param obj 需要判断的对象
+ */
+isObject( obj: any ): boolean;
+
+/**
+ * 判断传入对象是否是 Function 类型
+ * @param obj 需要判断的对象
+ */
+isFunction( obj: any ): boolean;
+
+/**
+ * 判断传入对象是否是 Symbol 类型
+ * @param obj 需要判断的对象
+ */
+isSymbol( obj: any ): boolean;
+
+/**
+ * 返回一个字符串 UID
+ */
+uid(): string;
+
+/**
+ * 创建一个可以缓存方法返回值的方法
+ * @param fn 需要缓存值的方法
+ */
+cached( fn: ( str: string ) => any ): function;
+```
+
+
+
+
+
+
+
 ## 选项 / 数据
 
 ### data
@@ -341,6 +446,42 @@ hu.a; // -> 3
 
 
 
+### globalMethods
+- 类型: &nbsp; `{ [key: String]: Function }`
+- 详细:
+
+globalMethods 将被混入到 Hu 实例中. 可以直接通过 Hu 实例访问这些方法, 或者在指令表达式中使用. 方法中的 this 自动绑定为 Hu 实例
+
+和 methods 选项不同的是, 由自定义元素创建的实例会将方法混入到自定义元素本身, 可以直接调用
+
+- 示例:
+``` js
+Hu.define( 'custom-element', {
+  data: () => ({
+    a: 1
+  }),
+  globalMethods:{
+    plus(){
+      this.a++
+    }
+  }
+});
+
+const custom = document.body.appendChild( document.createElement('custom-element') );
+const hu = custom.$hu;
+
+hu.a; // -> 2
+hu.plus();
+hu.a; // -> 3
+custom.plus();
+hu.a; // -> 4
+```
+
+
+
+
+
+
 ### watch
 - 类型: &nbsp; `{ [key: string]: string | Function | Object | Array }`
 - 详细:
@@ -487,6 +628,19 @@ render( html ){
 
 
 
+
+### styles
+- 类型: &nbsp; `string | string[]`
+- 限制: &nbsp; 只在自定义元素创建的实例下可用
+- 详细:
+
+指定自定义元素的样式, 在使用 polyfill 的环境下, 可以解决样式无法生效的问题
+
+
+
+
+
+
 ## 选项 / 生命周期钩子
 
 ### beforeCreate
@@ -569,7 +723,9 @@ render( html ){
 
 ### adopted
 - 类型: &nbsp; `Function`
-- 限制: 只在自定义元素创建的实例下可用
+- 限制:
+  - 只在自定义元素创建的实例下可用
+  - 在使用 polyfill 的环境下不可用
 - 详细:
 
 自定义元素被移动到新文档时调用, 此时实例完全可用
@@ -1198,7 +1354,7 @@ html`<div :class=${[ { activeClass: isActive }, errorClass ]}></div>`;
 
 操作元素的 style 内联样式是数据绑定的一个常见需求, `:style` 做了专门的增强, 表达式结果的类型除了字符串之外, 还可以是对象或数组.
 
-#### 数组语法
+#### 对象语法
 `:style` 的对象语法十分直观 -- 看着非常像 CSS, 但其实是一个 JavaScript 对象. CSS 属性名可以用驼峰式 ( camelCase ) 或短横线分隔 ( kebab-case, 记得用单引号括起来 ) 来命名
 ``` js
 var activeColor = 'red';
@@ -1239,4 +1395,29 @@ html`<div :style=${[ baseStyles, overridingStyles ]}></div>`
   - `<textarea>`
 - 详细:
 
-在表单控件上创建双向绑定
+在表单控件上创建双向绑定, 可以将控件的值与观察者对象进行绑定
+
+``` js
+const div = document.createElement('div');
+const hu = new Hu({
+  el: div,
+  data: {
+    value: ''
+  },
+  render( html ){
+    return html`
+      <input ref="input" :model=${[ this, 'value' ]}>
+    `;
+  }
+});
+
+hu.value = '1';
+hu.$nextTick(() => {
+  hu.$ref.input.value;// -> '1'
+
+  hu.value = '2';
+  hu.$nextTick(() => {
+    hu.$ref.input.value;// -> '2'
+  });
+});
+```
