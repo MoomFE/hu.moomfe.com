@@ -1,5 +1,5 @@
 import './public/hu/hu.polyfill.async.config';
-import './public/hu/hu.polyfill.async.esm';
+import '@moomfe/hu/dist/hu.polyfill.async.esm';
 
 
 export default ({
