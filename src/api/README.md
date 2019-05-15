@@ -807,6 +807,42 @@ Hu 实例的自定义元素节点
 
 
 
+### hu.$root
+- 类型: &nbsp; `Hu instance`
+- 只读
+- 详细:
+
+为当前实例的根实例, 若当前实例没有父实例, $root 选项会是自己
+
+
+
+
+
+
+### hu.$parent
+- 类型: &nbsp; `Hu instance`
+- 只读
+- 详细:
+
+当前实例的父实例
+
+
+
+
+
+
+### hu.$children
+- 类型: &nbsp; `Hu instance[]`
+- 只读
+- 详细:
+
+当前实例的直接子组件, 注意, $children 并不保证顺序且不是响应式的
+
+
+
+
+
+
 ### hu.$props
 - 类型: &nbsp; `Object`
 - 详细:
