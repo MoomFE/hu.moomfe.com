@@ -1144,6 +1144,78 @@ new Hu({
 
 
 
+## 自定义元素属性
+
+### custom.$hu
+- 只读
+- 详细
+
+自定义元素和自定义元素对应的 hu 实例的映射
+
+- 示例:
+``` js
+Hu.define( 'custom-element', {
+  // ...
+});
+
+// 自定义元素
+const custom = document.createElement('custom-element');
+// 自定义元素对应的 hu 实例
+const hu = custom.$hu;
+```
+
+
+
+
+
+
+## 自定义元素方法
+
+### custom.$on
+- 用法: &nbsp; `custom.$on( event, callback )`
+- 参数:
+  - `{ string | Array<string> } event`
+  - `{ Function } callback`
+- 只读
+- 详细:
+
+实例 [$on](#hu-on) 方法的映射
+
+
+
+
+
+
+### custom.$once
+- 用法: &nbsp; `custom.$once( event, callback )`
+- 参数:
+  - `{ string } event`
+  - `{ Function } callback`
+- 只读
+- 详细:
+
+实例 [$once](#hu-once) 方法的映射
+
+
+
+
+
+
+### custom.$off
+- 用法: &nbsp; `custom.$off([ event, callback ])`
+- 参数:
+  - `{ string | Array<string> } event`
+  - `{ Function } callback`
+- 只读
+- 详细:
+
+实例 [$off](#hu-emit) 方法的映射
+
+
+
+
+
+
 ## 基础指令
 
 ### .prop
