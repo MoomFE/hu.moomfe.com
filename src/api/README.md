@@ -95,6 +95,27 @@ Hu.define( 'custom-element', {
 
 
 
+
+### Hu.html.svg
+- 用法: &nbsp; ``` Hu.html`<div></div>` ```
+- 详细:
+
+方法用于创建 `SVGTemplateResult` 模板, 用于解决使用 `Hu.html` 单独创建出的 svg 内部元素无效的问题
+
+- 示例:
+``` js
+const text = Hu.html.svg`<text y="50%" dy="30%">123</text>`;
+
+Hu.render( div )`
+  <svg>${ text }</svg>
+`;
+```
+
+
+
+
+
+
 ### Hu.render
 - 用法: &nbsp; `Hu.render( result, container )`
 - 参数:
