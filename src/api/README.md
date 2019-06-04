@@ -147,6 +147,131 @@ Hu.render( div )`
 
 
 
+### Hu.directive
+- 用法: &nbsp; `Hu.directive( name, directiveClass )`
+- 参数:
+  - `{ String } name`
+  - `{ Classes } directiveClass`
+- 详细:
+
+用于注册或获取全局指令
+
+- 示例:
+``` js
+  // 注册组件
+  Hu.directive( 'my-directive', class {
+
+    /**
+     * 指令初始化时调用
+     * @param {Element} element 指令所绑定的元素, 可以用来直接操作 DOM
+     * @param {string} name 指令名, 不包括 `:` 前缀
+     * @param {string[]} strings 有时同一个指令可能是允许使用多个插值绑定的, 该变量就包含了内容中除了插值绑定的部分
+     *  - 例如: `:name=${ 'Hu.js' }` 是单个插值绑定的写法, 此时 `string` 将会是 `[ '', '' ]`
+     *  - 例如: `:name="${ 'My' } name is ${ 'Hu' }.js"` 是多个插值绑定的写法, 此时 `string` 将会是 `[ '', ' name is ', '.js' ]`
+     * @param {{}} modifiers 一个包含修饰符的对象
+     *  - 例如: `:name` 中, 修饰符对象为: `{}`
+     *  - 例如: `:name.foo.bar` 中, 修饰符对象为: `{ foo: true, bar: true }`
+     */
+    constructor( element, name, strings, modifiers ){
+
+      /**
+       * 在使用多个插值绑定的情况下
+       * 就需要返回多个指令类去单独处理每个插值绑定的部分
+       * 生成的多个指令类存储在 `parts` 实例属性中
+       * 在实例化当前指令类时
+       * 如果指令类拥有 `parts` 实例属性将返回 `parts` 内的所有指令类
+       * 
+       * 注意 !
+       * 若当前指令是不允许使用多个插值绑定的, 那么 `this.parts` 是无须定义的, 并且应该抛出一个错误
+       * 可以使用以下代码进行判断:
+       * 
+       *   if( !( strings.length === 2 && strings[0] === '' && strings[1] === '' ) ){
+       *     throw new Error('当前指令的传值只允许包含单个表达式 !');
+       *   }
+       */
+      this.parts = [];
+
+    }
+
+    /**
+     * 指令被设置值时调用, 有以下情况
+     *  1. 正常传值调用
+     *  2. 传递指令方法的调用
+     *     - 传递指令方法时, 需要将当前指令类传递给指令方法, 然后退出当前方法,
+     *       指令方法会将用户的输入处理, 然后使用正常传值调用的方式再次调用当前方法
+     * @param {any} value 用户传入值
+     * @param {boolean} isDirectiveFn 用户传入值是否是指令方法
+     */
+    commit( value, isDirectiveFn ){
+      if( isDirectiveFn ) return value( this );
+    }
+
+    /**
+     * 当前指令被释放时调用
+     */
+    destroy(){
+
+    }
+
+  });
+
+  // 返回已注册的指令
+  Hu.directive( 'my-directive' );
+
+  // 使用指令
+  Hu.html`
+    <div :my-directive=${ 123 }></div>
+  `;
+
+```
+
+
+
+
+
+
+### Hu.directiveFn
+- 用法: &nbsp; `Hu.directiveFn( directiveFn )`
+- 参数:
+  - `{ Function } directiveFn`
+- 详细:
+
+用于注册指令方法
+
+- 示例:
+``` js
+  // 这是方法的入口
+  // 正在等待用户调用
+  const fn = Hu.directiveFn(( value ) => {
+    // 用户已经调用指令方法
+    // 生成等待模板解析及指令的调用
+    return part => {
+      // 指令调用了当前指令方法
+      // 处理值后, 将值返回给指令
+
+      // 突然发现一个问题...
+      // 怎么返回嘞, 忘了给接口了 (*/ω＼*)
+    }
+  });
+
+  // 指令方法的调用
+  Hu.html`
+    <div class=${ fn( 123 ) }></div>
+  `;
+
+  // 也可以这样
+  const fnResult = fn( 123 );
+
+  Hu.html`
+    <div class=${ fnResult }></div>
+  `;
+```
+
+
+
+
+
+
 ### Hu.nextTick
 - 用法: &nbsp; `Hu.nextTick( callback, context )`
 - 参数:
@@ -471,9 +596,11 @@ hu.a; // -> 3
 - 类型: &nbsp; `{ [key: String]: Function }`
 - 详细:
 
-globalMethods 将被混入到 Hu 实例中. 可以直接通过 Hu 实例访问这些方法, 或者在指令表达式中使用. 方法中的 this 自动绑定为 Hu 实例
+globalMethods 将会在实例上添加属性内方法的映射, 可以直接通过 Hu 实例访问这些方法, 或者在指令表达式中使用. 方法中的 this 自动绑定为 Hu 实例
 
-和 methods 选项不同的是, 由自定义元素创建的实例会将方法混入到自定义元素本身, 可以直接调用
+和 methods 选项不同的是:
+  1. 由自定义元素创建的实例会将方法混入到自定义元素本身, 可以直接调用
+  2. 在任何一处修改了方法的映射, 所有地方均会更改
 
 - 示例:
 ``` js
@@ -897,6 +1024,20 @@ Hu 实例的方法对象, Hu 实例代理了对其 methods 对象属性的访问
 
 
 
+### hu.$globalMethods
+- 类型: &nbsp; `Object`
+- 详细:
+
+Hu 实例的方法对象, Hu 实例代理了对其 globalMethods 对象属性的访问
+
+和 `$methods` 实例属性不同的是, `$globalMethods` 实例属性是响应式的,
+若在任何一处修改了方法的映射, 所有地方均会更改, 同时也会触发响应式更新
+
+
+
+
+
+
 ### hu.$computed
 - 类型: &nbsp; `Object`
 - 详细:
@@ -937,6 +1078,9 @@ new Hu({
 
 当前 Hu 实例信息选项, 包含了当前实例的各种信息及状态:
 ::: tip
+- `uid`: 当前实例的 UID
+  - 在所有实例中是唯一的
+  - 在由 new 创建的实例中, uid 和 name 是相同的
 - `name` : 当前自定义元素的名称 | 当前实例的名称
 - `isMounted` : 标识当前实例的首次挂载是否已完成
 - `isCustomElement` : 标识当前实例是否是自定义元素
