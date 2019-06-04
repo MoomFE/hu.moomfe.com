@@ -248,9 +248,7 @@ Hu.render( div )`
     return part => {
       // 指令调用了当前指令方法
       // 处理值后, 将值返回给指令
-
-      // 突然发现一个问题...
-      // 怎么返回嘞, 忘了给接口了 (*/ω＼*)
+      Hu.directive.commit( part, value );
     }
   });
 
